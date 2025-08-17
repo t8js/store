@@ -1,4 +1,4 @@
-import {Store, isStore} from '.';
+import {isStore, Store} from '.';
 
 let testIndex = 0;
 

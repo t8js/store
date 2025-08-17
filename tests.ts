@@ -1,4 +1,4 @@
-import {Store} from './src/Store';
+import {Store, isStore} from '.';
 
 let testIndex = 0;
 
@@ -21,6 +21,9 @@ let unsubscribe = [
         testValue[1] *= state;
     }),
 ];
+
+assert(isStore(store), true);
+assert(isStore({}), false);
 
 assert(store.getState(), 10);
 assert(store.callbacks.length, 2);

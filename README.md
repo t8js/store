@@ -39,4 +39,4 @@ unsubscribe();
 
 ---
 
-- [React store](https://github.com/t8dev/react-store)
+- [React store](https://github.com/t8dash/react-store)

@@ -27,8 +27,7 @@ export class Store<T> {
 
         this.state = nextState;
 
-        if (this.revision === Number.MAX_SAFE_INTEGER)
-            this.revision = 1;
+        if (this.revision === Number.MAX_SAFE_INTEGER) this.revision = 1;
         else this.revision++;
 
         for (let callback of this.callbacks) callback(nextState, prevState);

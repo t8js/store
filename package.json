@@ -1,6 +1,6 @@
 {
   "name": "@t8/store",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Vanilla JS/TS data store",
   "main": "dist/index.js",
   "type": "module",

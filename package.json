@@ -9,11 +9,12 @@
     "clean": "node -e \"require('node:fs').rmSync('dist', {force: true, recursive: true});\"",
     "compile": "npx esbuild index.ts --bundle --outdir=dist --platform=neutral",
     "prepublishOnly": "npm run build",
-    "preversion": "npx npm-run-all shape test",
+    "preversion": "npx npm-run-all typecheck shape test",
     "shape": "npx codeshape",
     "test": "npx npm-run-all build test:compile test:run",
     "test:compile": "npx esbuild tests.ts --bundle --outdir=dist --platform=neutral",
-    "test:run": "node dist/tests.js"
+    "test:run": "node dist/tests.js",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,8 @@
     "store"
   ],
   "author": "axtk",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
 }

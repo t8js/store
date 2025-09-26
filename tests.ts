@@ -1,25 +1,25 @@
-import {isStore, Store} from '.';
+import { isStore, Store } from ".";
 
 let testIndex = 0;
 
 function assert(value: unknown, expectedValue: unknown) {
-    let valid = JSON.stringify(value) === JSON.stringify(expectedValue);
+  let valid = JSON.stringify(value) === JSON.stringify(expectedValue);
 
-    console.log(`000${++testIndex}`.slice(-3), valid ? 'PASSED' : 'FAILED');
+  console.log(`000${++testIndex}`.slice(-3), valid ? "PASSED" : "FAILED");
 
-    if (!valid) throw new Error(`Expected ${expectedValue}, got ${value}.`);
+  if (!valid) throw new Error(`Expected ${expectedValue}, got ${value}.`);
 }
 
 let store = new Store(10);
 
 let testValue = [100, -3];
 let unsubscribe = [
-    store.onUpdate(state => {
-        testValue[0] += state;
-    }),
-    store.onUpdate(state => {
-        testValue[1] *= state;
-    }),
+  store.onUpdate((state) => {
+    testValue[0] += state;
+  }),
+  store.onUpdate((state) => {
+    testValue[1] *= state;
+  }),
 ];
 
 assert(isStore(store), true);
@@ -47,4 +47,4 @@ assert(testValue[0], 89);
 assert(testValue[1], 150);
 
 console.log();
-console.log('PASSED');
+console.log("PASSED");

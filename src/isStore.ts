@@ -1,4 +1,4 @@
-import type {Store} from './Store';
+import type { Store } from "./Store";
 
 /**
  * Replaces the `instanceof Store` check which can lead to a
@@ -6,14 +6,14 @@ import type {Store} from './Store';
  * package dependencies.
  */
 export function isStore<T>(x: unknown): x is Store<T> {
-    return (
-        x !== null &&
-        typeof x === 'object' &&
-        'onUpdate' in x &&
-        typeof x.onUpdate === 'function' &&
-        'getState' in x &&
-        typeof x.getState === 'function' &&
-        'setState' in x &&
-        typeof x.setState === 'function'
-    );
+  return (
+    x !== null &&
+    typeof x === "object" &&
+    "onUpdate" in x &&
+    typeof x.onUpdate === "function" &&
+    "getState" in x &&
+    typeof x.getState === "function" &&
+    "setState" in x &&
+    typeof x.setState === "function"
+  );
 }

@@ -9,9 +9,9 @@ Installation: `npm i @t8/store`
 ## Initialization
 
 ```js
-import {Store} from '@t8/store';
+import { Store } from "@t8/store";
 
-let store = new Store({counter: 0});
+let store = new Store({ counter: 0 });
 ```
 
 ## Manipulation
@@ -20,10 +20,10 @@ let store = new Store({counter: 0});
 let state = store.getState();
 console.log(state.counter); // 0
 
-store.setState({counter: 100});
+store.setState({ counter: 100 });
 console.log(state.counter); // 100
 
-store.setState(state => ({...state, counter: state.counter + 1}));
+store.setState(state => ({ ...state, counter: state.counter + 1 }));
 console.log(state.counter); // 101
 ```
 
@@ -31,7 +31,7 @@ console.log(state.counter); // 101
 
 ```js
 let unsubscribe = store.onUpdate((nextState, prevState) => {
-    console.log(nextState, prevState);
+  console.log(nextState, prevState);
 });
 
 unsubscribe();

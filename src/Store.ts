@@ -3,18 +3,16 @@ export type StoreUpdateCallback<T> = (nextState: T, prevState: T) => void;
 
 export class Store<T> {
   state: T;
-  callbacks: StoreUpdateCallback<T>[] = [];
+  callbacks = new Set<StoreUpdateCallback<T>>();
   revision = -1;
   constructor(data: T) {
     this.state = data;
   }
   onUpdate(callback: StoreUpdateCallback<T>) {
-    this.callbacks.push(callback);
+    this.callbacks.add(callback);
 
     return () => {
-      for (let i = this.callbacks.length - 1; i >= 0; i--) {
-        if (this.callbacks[i] === callback) this.callbacks.splice(i, 1);
-      }
+      this.callbacks.delete(callback);
     };
   }
   getState() {

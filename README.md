@@ -14,6 +14,8 @@ import { Store } from "@t8/store";
 let store = new Store({ counter: 0 });
 ```
 
+🔹 Similarly to instances of the built-in data container classes, such as `Set` and `Map`, stores are created as `new Store(data)` rather than with a factory function.
+
 ## Manipulation
 
 ```js

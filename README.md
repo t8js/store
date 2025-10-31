@@ -39,6 +39,8 @@ let unsubscribe = store.onUpdate((nextState, prevState) => {
 unsubscribe();
 ```
 
+<!-- docsgen-hide-start -->
 ---
 
 - [React store](https://github.com/t8js/react-store)
+<!-- docsgen-hide-end -->

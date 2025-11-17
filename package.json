@@ -3,9 +3,10 @@
   "version": "1.1.7",
   "description": "Vanilla JS/TS data store",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "npx npm-run-all clean compile",
+    "build": "npx npm-run-all clean compile types",
     "clean": "node -e \"require('node:fs').rmSync('dist', { force: true, recursive: true });\"",
     "compile": "npx esbuild index.ts --bundle --outdir=dist --platform=neutral",
     "prepublishOnly": "npm run build",
@@ -14,7 +15,8 @@
     "test": "npx npm-run-all build test:compile test:run",
     "test:compile": "npx esbuild tests.ts --bundle --outdir=dist --platform=neutral",
     "test:run": "node dist/tests.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "types": "tsc --emitDeclarationOnly"
   },
   "repository": {
     "type": "git",

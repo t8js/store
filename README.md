@@ -19,6 +19,8 @@ let store = new Store({ counter: 0 });
 ## Manipulation
 
 ```js
+let store = new Store({ counter: 0 });
+
 let state = store.getState();
 console.log(state.counter); // 0
 
@@ -40,7 +42,7 @@ unsubscribe();
 ```
 
 <!-- docsgen-hide-start -->
----
+## Related
 
-- [React store](https://github.com/t8js/react-store)
+[React Store](https://github.com/t8js/react-store)
 <!-- docsgen-hide-end -->

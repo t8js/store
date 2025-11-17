@@ -1,4 +1,4 @@
-import type { Store } from "./Store";
+import type { Store } from "./Store.ts";
 
 /**
  * Replaces the `instanceof Store` check which can lead to a

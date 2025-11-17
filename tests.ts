@@ -1,4 +1,4 @@
-import { isStore, Store } from ".";
+import { isStore, Store } from "./index.ts";
 
 let testIndex = 0;
 

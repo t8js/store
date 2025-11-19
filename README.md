@@ -2,7 +2,7 @@
 
 *Vanilla JS/TS data store offering subscription to its updates*
 
-[![npm](https://img.shields.io/npm/v/@t8/store?labelColor=345&color=46e)](https://www.npmjs.com/package/@t8/store) ![Lightweight](https://img.shields.io/bundlejs/size/@t8/store?label=minzip&labelColor=345&color=46e)
+[![npm](https://img.shields.io/npm/v/@t8/store?labelColor=345&color=46e)](https://www.npmjs.com/package/@t8/store) ![Lightweight](https://img.shields.io/bundlephobia/minzip/@t8/store?label=minzip&labelColor=345&color=46e)
 
 Installation: `npm i @t8/store`
 

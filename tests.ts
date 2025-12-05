@@ -26,7 +26,7 @@ assert(isStore(store), true);
 assert(isStore({}), false);
 
 assert(store.getState(), 10);
-assert(store.callbacks.size, 2);
+assert(store.callbacks.update.size, 2);
 
 store.setState(2);
 assert(store.getState(), 2);
@@ -39,7 +39,7 @@ assert(testValue[0], 77);
 assert(testValue[1], 150);
 
 unsubscribe[1]();
-assert(store.callbacks.size, 1);
+assert(store.callbacks.update.size, 1);
 
 store.setState(12);
 assert(store.getState(), 12);

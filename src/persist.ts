@@ -28,7 +28,7 @@ export function persist<T>(
 ) {
   let inited = false;
 
-  function read() {
+  function read(state: T) {
     let storage = getStorage(session);
 
     if (storage) {
@@ -38,7 +38,10 @@ export function persist<T>(
       } catch {}
     }
 
-    if (!inited) inited = true;
+    if (!inited) {
+      inited = true;
+      write(state);
+    }
   }
 
   function write(state: T) {

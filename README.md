@@ -34,7 +34,7 @@ console.log(state.counter); // 101
 ## Subscription to updates
 
 ```js
-let unsubscribe = store.onUpdate((nextState, prevState) => {
+let unsubscribe = store.on("update", (nextState, prevState) => {
   console.log(nextState, prevState);
 });
 

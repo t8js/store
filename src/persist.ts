@@ -1,4 +1,4 @@
-import { Store } from "./Store.ts";
+import type { Store } from "./Store.ts";
 
 function getStorage(session: boolean) {
   if (typeof window === "undefined") return;
@@ -14,14 +14,18 @@ function getStorage(session: boolean) {
  * Interaction with the browser storage is skipped in non-browser environments.
  *
  * Returns the original store.
- * 
+ *
  * @example
  * ```js
  * let counterStore = persist(new Store(0), "counter");
  * counterStore.emit("sync"); // signals to read from localStorage now
  * ```
  */
-export function persist<T>(store: Store<T>, storageKey: string, session = false) {
+export function persist<T>(
+  store: Store<T>,
+  storageKey: string,
+  session = false,
+) {
   let inited = false;
 
   function read() {
@@ -31,8 +35,7 @@ export function persist<T>(store: Store<T>, storageKey: string, session = false)
       try {
         let rawState = storage.getItem(storageKey);
         if (rawState !== null) store.setState(JSON.parse(rawState) as T);
-      }
-      catch {}
+      } catch {}
     }
 
     if (!inited) inited = true;
@@ -44,8 +47,7 @@ export function persist<T>(store: Store<T>, storageKey: string, session = false)
     if (inited && storage) {
       try {
         storage.setItem(storageKey, JSON.stringify(state));
-      }
-      catch {}
+      } catch {}
     }
   }
 

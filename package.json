@@ -10,12 +10,11 @@
     "clean": "node -e \"require('node:fs').rmSync('dist', { force: true, recursive: true });\"",
     "compile": "npx esbuild index.ts --bundle --outdir=dist --platform=neutral",
     "prepublishOnly": "npm run build",
-    "preversion": "npx npm-run-all typecheck shape test",
-    "shape": "npx codeshape",
-    "test": "npx npm-run-all build test:compile test:run",
+    "preversion": "npx npm-run-all shape build test",
+    "shape": "npx codeshape --typecheck",
+    "test": "npx npm-run-all test:compile test:run",
     "test:compile": "npx esbuild tests.ts --bundle --outdir=dist --platform=neutral",
     "test:run": "node dist/tests.js",
-    "typecheck": "tsc --noEmit",
     "types": "tsc --emitDeclarationOnly"
   },
   "repository": {

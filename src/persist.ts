@@ -30,17 +30,20 @@ export function persist<T>(
 
   function read(state: T) {
     let storage = getStorage(session);
+    let rawState: string | null = null;
 
     if (storage) {
       try {
-        let rawState = storage.getItem(storageKey);
+        rawState = storage.getItem(storageKey);
+
         if (rawState !== null) store.setState(JSON.parse(rawState) as T);
       } catch {}
     }
 
     if (!inited) {
       inited = true;
-      write(state);
+
+      if (rawState === null) write(state);
     }
   }
 

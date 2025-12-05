@@ -1,19 +1,38 @@
 export type StoreStateUpdate<T> = (state: T) => T;
-export type StoreUpdateCallback<T> = (nextState: T, prevState: T) => void;
+export type StoreEventCallback<T> = (nextState: T, prevState: T) => void;
 
 export class Store<T> {
   state: T;
-  callbacks = new Set<StoreUpdateCallback<T>>();
+  callbacks: Record<string, Set<StoreEventCallback<T>>> = {};
   revision = -1;
   constructor(data: T) {
     this.state = data;
   }
-  onUpdate(callback: StoreUpdateCallback<T>) {
-    this.callbacks.add(callback);
+  on(event: string, callback: StoreEventCallback<T>) {
+    (this.callbacks[event] ??= new Set()).add(callback);
 
     return () => {
-      this.callbacks.delete(callback);
+      this.off(event, callback);
     };
+  }
+  off(event: string, callback: StoreEventCallback<T>) {
+    this.callbacks[event]?.delete(callback);
+  }
+  once(event: string, callback: StoreEventCallback<T>) {
+    let oneTimeCallback: StoreEventCallback<T> = (nextState, prevState) => {
+      this.off(event, oneTimeCallback);
+      callback(nextState, prevState);
+    };
+
+    return this.on(event, oneTimeCallback);
+  }
+  emit(event: string, nextState?: T, prevState?: T) {
+    let eventCallbacks = this.callbacks[event];
+
+    if (eventCallbacks) {
+      for (let callback of eventCallbacks)
+        callback(nextState ?? this.state, prevState ?? this.state);
+    }
   }
   getState() {
     return this.state;
@@ -25,6 +44,6 @@ export class Store<T> {
     this.state = nextState;
     this.revision = Math.random();
 
-    for (let callback of this.callbacks) callback(nextState, prevState);
+    this.emit("update", nextState, prevState);
   }
 }

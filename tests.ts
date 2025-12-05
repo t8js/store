@@ -14,10 +14,10 @@ let store = new Store(10);
 
 let testValue = [100, -3];
 let unsubscribe = [
-  store.onUpdate((state) => {
+  store.on("update", (state) => {
     testValue[0] += state;
   }),
-  store.onUpdate((state) => {
+  store.on("update", (state) => {
     testValue[1] *= state;
   }),
 ];

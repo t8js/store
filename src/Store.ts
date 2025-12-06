@@ -1,6 +1,9 @@
 export type StoreStateUpdate<T> = (state: T) => T;
 export type StoreEventCallback<T> = (nextState: T, prevState: T) => void;
 
+/**
+ * Data container offering subscription to its updates.
+ */
 export class Store<T> {
   state: T;
   callbacks: Record<string, Set<StoreEventCallback<T>>> = {};

@@ -9,8 +9,8 @@ export function isStore<T>(x: unknown): x is Store<T> {
   return (
     x !== null &&
     typeof x === "object" &&
-    "on" in x &&
-    typeof x.on === "function" &&
+    "onUpdate" in x &&
+    typeof x.onUpdate === "function" &&
     "getState" in x &&
     typeof x.getState === "function" &&
     "setState" in x &&

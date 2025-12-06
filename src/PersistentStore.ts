@@ -10,6 +10,9 @@ function getStorage(session: boolean) {
  * subscription to its updates.
  */
 export class PersistentStore<T> extends Store<T> {
+  storageKey: string;
+  session: boolean;
+  synced = false;
   /**
    * Creates an instance of the container for data persistent across page
    * reloads.
@@ -27,52 +30,51 @@ export class PersistentStore<T> extends Store<T> {
   constructor(data: T, storageKey: string, session = false) {
     super(data);
 
-    let inited = false;
+    this.storageKey = storageKey;
+    this.session = session;
 
-    let sync = (state: T) => {
-      let storage = getStorage(session);
-      let rawState: string | null = null;
+    this.onUpdate(() => {
+      if (this.synced) this.save();
+    });
+  }
+  /**
+   * Saves the store state value to the browser storage.
+   */
+  save() {
+    let storage = getStorage(this.session);
 
-      if (storage) {
-        try {
-          rawState = storage.getItem(storageKey);
-
-          if (rawState !== null) this.setState(JSON.parse(rawState) as T);
-        } catch {}
-      }
-
-      if (!inited) {
-        inited = true;
-
-        if (rawState === null) write(state);
-      }
+    if (this.synced && storage) {
+      try {
+        storage.setItem(this.storageKey, JSON.stringify(this.state));
+      } catch {}
     }
-
-    let write = (state: T) => {
-      let storage = getStorage(session);
-
-      if (inited && storage) {
-        try {
-          storage.setItem(storageKey, JSON.stringify(state));
-        } catch {}
-      }
-    }
-
-    this.on("sync", sync);
-    this.once("synconce", sync);
-    this.on("update", write);
   }
   /**
    * Signals the store to read the state value from the browser storage.
    */
   sync() {
-    this.emit("sync");
+    let storage = getStorage(this.session);
+    let rawState: string | null = null;
+
+    if (storage) {
+      try {
+        rawState = storage.getItem(this.storageKey);
+
+        if (rawState !== null) this.setState(JSON.parse(rawState) as T);
+      } catch {}
+    }
+
+    if (!this.synced) {
+      this.synced = true;
+
+      if (rawState === null) this.save();
+    }
   }
   /**
    * Signals the store to read the state value from the browser storage once,
    * disregarding subsequest `syncOnce()` calls.
    */
   syncOnce() {
-    this.emit("synconce");
+    if (!this.synced) this.sync();
   }
 }

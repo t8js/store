@@ -34,7 +34,7 @@ console.log(state.counter); // 101
 ## Subscription to updates
 
 ```js
-let unsubscribe = store.on("update", (nextState, prevState) => {
+let unsubscribe = store.onUpdate((nextState, prevState) => {
   console.log(nextState, prevState);
 });
 
@@ -44,23 +44,23 @@ unsubscribe();
 ## Persistence across page reloads
 
 ```js
-import { Store, persist } from "@t8/store";
+import { PersistentStore } from "@t8/store";
 
-let counterStore = persist(new Store(0), "counter");
+let counterStore = new PersistentStore(0, "counter");
 ```
 
-Whenever it's updated, `counterStore` above will save its state to the `"counter"` key of `localStorage`. (Pass `true` as the third parameter of `persist()` to use `sessionStorage` instead of `localStorage`.)
+Whenever it's updated, `counterStore` above will save its state to the `"counter"` key of `localStorage`. (Pass `true` as the third parameter of `new PersistentStore()` to use `sessionStorage` instead of `localStorage`.)
 
 The following call signals the store to read the state value from the browser storage, which can be used once or multiple times during the app session:
 
 ```js
-counterStore.emit("sync");
+counterStore.sync();
 ```
 
-If it's desirable to sync a store just once regardless of the number of emit calls (that might come from multiple independent parts of the app), the one-time subscription event can be emitted instead:
+If it's desirable to sync a store just once regardless of the number of sync calls (that might come from multiple independent parts of the app), `syncOnce()` calls can be used instead:
 
 ```js
-counterStore.emit("synconce"); // Syncs once disregarding subsequent emit("synconce") calls
+counterStore.syncOnce(); // Syncs once disregarding subsequent syncOnce() calls
 ```
 
 <!-- docsgen-hide-start -->

@@ -58,7 +58,7 @@ export function persist<T>(
   }
 
   store.on("sync", sync);
-  store.once("effect", sync);
+  store.once("synconce", sync);
   store.on("update", write);
 
   return store;

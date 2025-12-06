@@ -51,10 +51,16 @@ let counterStore = persist(new Store(0), "counter");
 
 Whenever it's updated, `counterStore` above will save its state to the `"counter"` key of `localStorage`. (Pass `true` as the third parameter of `persist()` to use `sessionStorage` instead of `localStorage`.)
 
-The following call signals the store to read the state value from the browser storage (which can be used once or multiple times during the app session):
+The following call signals the store to read the state value from the browser storage, which can be used once or multiple times during the app session:
 
 ```js
 counterStore.emit("sync");
+```
+
+If it's desirable to sync a store just once regardless of the number of emit calls (that might come from multiple independent parts of the app), the one-time subscription event can be emitted instead:
+
+```js
+counterStore.emit("synconce"); // Syncs once disregarding subsequent emit("synconce") calls
 ```
 
 <!-- docsgen-hide-start -->

@@ -28,7 +28,7 @@ export function persist<T>(
 ) {
   let inited = false;
 
-  function read(state: T) {
+  function sync(state: T) {
     let storage = getStorage(session);
     let rawState: string | null = null;
 
@@ -57,8 +57,8 @@ export function persist<T>(
     }
   }
 
-  store.on("sync", read);
-  store.once("effect", read);
+  store.on("sync", sync);
+  store.once("effect", sync);
   store.on("update", write);
 
   return store;

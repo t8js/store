@@ -16,7 +16,7 @@ export class PersistentStore<T> extends Store<T> {
   /**
    * Creates an instance of the container for data persistent across page
    * reloads.
-   * 
+   *
    * The store data is saved to and restored from the given `storageKey`
    * either of `localStorage` if the `session` parameter is `false` (which is
    * the default), or of `sessionStorage` if `session` is set to `true`.

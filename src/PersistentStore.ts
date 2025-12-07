@@ -39,7 +39,11 @@ export class PersistentStore<T> extends Store<T> {
    * `options.deserialize`. By default, they are `JSON.stringify()` and
    * `JSON.parse()`.
    */
-  constructor(data: T, storageKey: string, options?: PersistentStoreOptions<T>) {
+  constructor(
+    data: T,
+    storageKey: string,
+    options?: PersistentStoreOptions<T>,
+  ) {
     super(data);
 
     this.storageKey = storageKey;
@@ -79,7 +83,8 @@ export class PersistentStore<T> extends Store<T> {
       try {
         serializedState = storage.getItem(this.storageKey);
 
-        if (serializedState !== null) this.setState(deserialize(serializedState, this.state));
+        if (serializedState !== null)
+          this.setState(deserialize(serializedState, this.state));
       } catch {}
     }
 

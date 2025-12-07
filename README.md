@@ -49,7 +49,7 @@ import { PersistentStore } from "@t8/store";
 let counterStore = new PersistentStore(0, "counter");
 ```
 
-Whenever it's updated, `counterStore` above will save its state to the `"counter"` key of `localStorage`. (Pass `true` as the third parameter of `new PersistentStore()` to use `sessionStorage` instead of `localStorage`.)
+Whenever it's updated, `counterStore` above will save its state to the `"counter"` key of `localStorage`. (Pass `{ session: true }` as the third parameter of `new PersistentStore()` to use `sessionStorage` instead of `localStorage`.)
 
 The following call signals the store to read the state value from the browser storage, which can be used once or multiple times during the app session:
 
@@ -62,6 +62,8 @@ If it's desirable to sync a store just once regardless of the number of sync cal
 ```js
 counterStore.syncOnce(); // Syncs once disregarding subsequent syncOnce() calls
 ```
+
+The way data gets saved to and restored from a browser storage entry (including filtering out certain data or otherwise rearranging the saved data) can be overridden by setting `options.serialize` and `options.deserialize` in `new PersistentStore(data, storageKey, options)`. By default, they are `JSON.stringify()` and `JSON.parse()`.
 
 <!-- docsgen-hide-start -->
 ## Related

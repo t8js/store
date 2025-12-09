@@ -5,7 +5,7 @@ let testIndex = 0;
 function assert(value: unknown, expectedValue: unknown) {
   let valid = JSON.stringify(value) === JSON.stringify(expectedValue);
 
-  console.log(`000${++testIndex}`.slice(-3), valid ? "PASSED" : "FAILED");
+  console.log(`000${++testIndex}`.slice(-3), valid ? "Passed" : "Failed");
 
   if (!valid) throw new Error(`Expected ${expectedValue}, got ${value}.`);
 }
@@ -47,4 +47,4 @@ assert(testValue[0], 89);
 assert(testValue[1], 150);
 
 console.log();
-console.log("PASSED");
+console.log("Passed");

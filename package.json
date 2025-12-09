@@ -6,14 +6,13 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "npx npm-run-all clean compile types",
+    "build": "npx npm-run-all clean compile",
     "clean": "node -e \"require('node:fs').rmSync('dist', { force: true, recursive: true });\"",
     "compile": "npx esbuild index.ts --bundle --outdir=dist --platform=neutral",
     "prepublishOnly": "npm run build",
     "preversion": "npx npm-run-all shape build test",
-    "shape": "npx codeshape --typecheck",
-    "test": "node tests.ts",
-    "types": "tsc --emitDeclarationOnly"
+    "shape": "npx codeshape --typecheck --emit-types",
+    "test": "node tests.ts"
   },
   "repository": {
     "type": "git",

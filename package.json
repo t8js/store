@@ -21,8 +21,5 @@
     "store"
   ],
   "author": "axtk",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^5.9.2"
-  }
+  "license": "MIT"
 }

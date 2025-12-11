@@ -63,7 +63,7 @@ If it's desirable to sync a store just once regardless of the number of sync cal
 counterStore.syncOnce(); // Syncs once disregarding subsequent syncOnce() calls
 ```
 
-The way data gets saved to and restored from a browser storage entry (including filtering out certain data or otherwise rearranging the saved data) can be overridden by setting `options.serialize` and `options.deserialize` in `new PersistentStore(data, storageKey, options)`. By default, they are `JSON.stringify()` and `JSON.parse()`.
+The way data gets saved to and restored from a browser storage entry (including filtering out certain data or otherwise rearranging the saved data) can be redefined by setting `options.serialize` and `options.deserialize` in `new PersistentStore(data, storageKey, options)`. By default, these options act like `JSON.stringify()` and `JSON.parse()` respectively.
 
 <!-- docsgen-hide-start -->
 ## Related

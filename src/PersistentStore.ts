@@ -72,7 +72,9 @@ export class PersistentStore<T> extends Store<T> {
     }
   }
   /**
-   * Signals the store to read the value from the browser storage.
+   * Signals the store to read the value from the browser storage. If the
+   * value is not yet present in the browser storage, the current store
+   * value is saved to the browser storage.
    */
   sync() {
     let storage = getStorage(this.options?.session);

@@ -12,17 +12,23 @@ Installation: `npm i @t8/store`
 
 ## Initialization
 
+Stores accept data of any kind.
+
 ```js
 import { Store } from "@t8/store";
 
-let store1 = new Store(0); // with a primitive value
+// With a primitive value
+let store1 = new Store(0);
 
-let store2 = new Store({ counter: 0 }); // with a nonprimitive value
+// With a nonprimitive value
+let store2 = new Store({ counter: 0 });
 ```
 
 Similarly to instances of the built-in data container classes, such as `Set` and `Map`, stores are created as `new Store(value)` rather than with a factory function.
 
 ## Value manipulation
+
+The store value can be read and updated with `getValue()` and `setValue(update)`. `setValue(update)` accepts either a new value or a function `(value) => nextValue` that returns a new store value based on the current store value.
 
 ```js
 let store = new Store({ counter: 0 });
@@ -33,19 +39,21 @@ console.log(value.counter); // 0
 store.setValue({ counter: 100 });
 console.log(value.counter); // 100
 
-store.setValue(value => ({ ...value, counter: value.counter + 1 }));
+store.setValue((value) => ({ ...value, counter: value.counter + 1 }));
 console.log(value.counter); // 101
 ```
 
 ## Subscription to updates
 
+A callback passed to the `onUpdate(callback)` method is called each time the store value is updated via `setValue(value)`.
+
 ```js
 let unsubscribe = store.onUpdate((nextValue, prevValue) => {
   console.log(nextValue, prevValue);
 });
-
-unsubscribe();
 ```
+
+`onUpdate(callback)` returns an unsubscription function. Once it's invoked, the given `callback` is removed from the store and no longer called when the store is updated.
 
 ## Persistence across page reloads
 
@@ -63,7 +71,7 @@ The following call signals the store to read the value from the browser storage,
 counterStore.sync();
 ```
 
-If it's desirable to sync a store with the browser storage just once regardless of the number of sync calls (which might come from multiple independent parts of the code), `syncOnce()` calls can be used instead:
+If it's desirable to sync a store with the browser storage just once regardless of the number of sync calls (coming from multiple independent parts of the code, for example), `syncOnce()` calls can be used instead:
 
 ```js
 counterStore.syncOnce(); // Syncs once disregarding subsequent syncOnce() calls

@@ -11,6 +11,14 @@ export class Store<T> {
   constructor(value: T) {
     this.value = value;
   }
+  /**
+   * Adds a store value update handler which should be called whenever
+   * the store value is updated via `setValue(value)`.
+   * 
+   * Returns an unsubscription function. Once it's invoked, the given
+   * `callback` is removed from the store and no longer called when
+   * the store is updated.
+   */
   onUpdate(callback: StoreUpdateCallback<T>) {
     this.callbacks.add(callback);
 
@@ -18,9 +26,18 @@ export class Store<T> {
       this.callbacks.delete(callback);
     };
   }
+  /**
+   * Reads the store value.
+   */
   getValue() {
     return this.value;
   }
+  /**
+   * Updates the store value.
+   * 
+   * @param update - A new value or an update function `(value) => nextValue`
+   * that returns a new store value based on the current store value.
+   */
   setValue(update: T | StoreUpdate<T>) {
     let prevValue = this.value;
     let nextValue = update instanceof Function ? update(this.value) : update;

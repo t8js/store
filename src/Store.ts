@@ -2,7 +2,7 @@ export type StoreStateUpdate<T> = (state: T) => T;
 export type StoreEventCallback<T> = (nextState: T, prevState: T) => void;
 
 /**
- * Data container offering subscription to its updates.
+ * Data container allowing for subscription to its updates.
  */
 export class Store<T> {
   state: T;

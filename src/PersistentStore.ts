@@ -50,7 +50,8 @@ export class PersistentStore<T> extends Store<T> {
     this.options = {
       session: false,
       serialize: (value: T) => JSON.stringify(value),
-      deserialize: (serializedValue: string) => JSON.parse(serializedValue) as T,
+      deserialize: (serializedValue: string) =>
+        JSON.parse(serializedValue) as T,
       ...options,
     };
 

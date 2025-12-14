@@ -14,7 +14,7 @@ export class Store<T> {
   /**
    * Adds a store value update handler which should be called whenever
    * the store value is updated via `setValue(value)`.
-   * 
+   *
    * Returns an unsubscription function. Once it's invoked, the given
    * `callback` is removed from the store and no longer called when
    * the store is updated.
@@ -34,7 +34,7 @@ export class Store<T> {
   }
   /**
    * Updates the store value.
-   * 
+   *
    * @param update - A new value or an update function `(value) => nextValue`
    * that returns a new store value based on the current store value.
    */

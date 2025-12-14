@@ -11,9 +11,9 @@ export function isStore<T>(x: unknown): x is Store<T> {
     typeof x === "object" &&
     "onUpdate" in x &&
     typeof x.onUpdate === "function" &&
-    "getState" in x &&
-    typeof x.getState === "function" &&
-    "setState" in x &&
-    typeof x.setState === "function"
+    "getValue" in x &&
+    typeof x.getValue === "function" &&
+    "setValue" in x &&
+    typeof x.setValue === "function"
   );
 }

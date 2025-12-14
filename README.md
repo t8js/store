@@ -15,31 +15,33 @@ Installation: `npm i @t8/store`
 ```js
 import { Store } from "@t8/store";
 
-let store = new Store({ counter: 0 });
+let store1 = new Store(0); // with a primitive value
+
+let store2 = new Store({ counter: 0 }); // with a nonprimitive value
 ```
 
-Similarly to instances of the built-in data container classes, such as `Set` and `Map`, stores are created as `new Store(data)` rather than with a factory function.
+Similarly to instances of the built-in data container classes, such as `Set` and `Map`, stores are created as `new Store(value)` rather than with a factory function.
 
 ## Value manipulation
 
 ```js
 let store = new Store({ counter: 0 });
 
-let state = store.getState();
-console.log(state.counter); // 0
+let value = store.getValue();
+console.log(value.counter); // 0
 
-store.setState({ counter: 100 });
-console.log(state.counter); // 100
+store.setValue({ counter: 100 });
+console.log(value.counter); // 100
 
-store.setState(state => ({ ...state, counter: state.counter + 1 }));
-console.log(state.counter); // 101
+store.setValue(value => ({ ...value, counter: value.counter + 1 }));
+console.log(value.counter); // 101
 ```
 
 ## Subscription to updates
 
 ```js
-let unsubscribe = store.onUpdate((nextState, prevState) => {
-  console.log(nextState, prevState);
+let unsubscribe = store.onUpdate((nextValue, prevValue) => {
+  console.log(nextValue, prevValue);
 });
 
 unsubscribe();
@@ -53,18 +55,18 @@ import { PersistentStore } from "@t8/store";
 let counterStore = new PersistentStore(0, "counter");
 ```
 
-Whenever updated, `counterStore` above will save its state to the `"counter"` key of `localStorage`. (Pass `{ session: true }` as the third parameter of `new PersistentStore()` to use `sessionStorage` instead of `localStorage`.)
+Whenever updated, `counterStore` above will save its value to the `"counter"` key of `localStorage`. (Pass `{ session: true }` as the third parameter of `new PersistentStore()` to use `sessionStorage` instead of `localStorage`.)
 
-The following call signals the store to read the state value from the browser storage, which can be used once or multiple times during the app session:
+The following call signals the store to read the value from the browser storage, which can be used once or multiple times after creating the store:
 
 ```js
 counterStore.sync();
 ```
 
-If it's desirable to sync a store just once regardless of the number of sync calls (that might come from multiple independent parts of the app), `syncOnce()` calls can be used instead:
+If it's desirable to sync a store with the browser storage just once regardless of the number of sync calls (which might come from multiple independent parts of the code), `syncOnce()` calls can be used instead:
 
 ```js
 counterStore.syncOnce(); // Syncs once disregarding subsequent syncOnce() calls
 ```
 
-The way data gets saved to and restored from a browser storage entry (including filtering out certain data or otherwise rearranging the saved data) can be redefined by setting `options.serialize` and `options.deserialize` in `new PersistentStore(data, storageKey, options)`. By default, these options act like `JSON.stringify()` and `JSON.parse()` respectively.
+The way the store value gets saved to and restored from a browser storage entry (including filtering out certain data or otherwise rearranging the saved data) can be redefined by setting `options.serialize` and `options.deserialize` in `new PersistentStore(value, storageKey, options)`. By default, these options act like `JSON.stringify()` and `JSON.parse()` respectively.

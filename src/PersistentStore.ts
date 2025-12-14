@@ -7,12 +7,12 @@ function getStorage(session = false) {
 
 export type PersistentStoreOptions<T> = {
   session?: boolean;
-  serialize?: (data: T) => string;
-  deserialize?: (serializedState: string, currentState?: T) => T;
+  serialize?: (value: T) => string;
+  deserialize?: (serializedValue: string, currentValue?: T) => T;
 };
 
 /**
- * Container for data persistent across page reloads, offering
+ * Container for data persistent across page reloads, allowing for
  * subscription to its updates.
  */
 export class PersistentStore<T> extends Store<T> {
@@ -36,21 +36,21 @@ export class PersistentStore<T> extends Store<T> {
    * The way data gets saved to and restored from a browser storage entry
    * (including filtering out certain data or otherwise rearranging the
    * saved data) can be overridden by setting `options.serialize` and
-   * `options.deserialize`. By default, they are `JSON.stringify()` and
-   * `JSON.parse()`.
+   * `options.deserialize`. By default, these options act like `JSON.stringify()`
+   * and `JSON.parse()` respectively.
    */
   constructor(
-    data: T,
+    value: T,
     storageKey: string,
     options?: PersistentStoreOptions<T>,
   ) {
-    super(data);
+    super(value);
 
     this.storageKey = storageKey;
     this.options = {
       session: false,
-      serialize: (data: T) => JSON.stringify(data),
-      deserialize: (content: string) => JSON.parse(content) as T,
+      serialize: (value: T) => JSON.stringify(value),
+      deserialize: (serializedValue: string) => JSON.parse(serializedValue) as T,
       ...options,
     };
 
@@ -59,7 +59,7 @@ export class PersistentStore<T> extends Store<T> {
     });
   }
   /**
-   * Saves the store state value to the browser storage.
+   * Saves the store value to the browser storage.
    */
   save() {
     let storage = getStorage(this.options?.session);
@@ -67,35 +67,35 @@ export class PersistentStore<T> extends Store<T> {
 
     if (this.synced && storage && typeof serialize === "function") {
       try {
-        storage.setItem(this.storageKey, serialize(this.state));
+        storage.setItem(this.storageKey, serialize(this.value));
       } catch {}
     }
   }
   /**
-   * Signals the store to read the state value from the browser storage.
+   * Signals the store to read the value from the browser storage.
    */
   sync() {
     let storage = getStorage(this.options?.session);
     let deserialize = this.options?.deserialize;
-    let serializedState: string | null = null;
+    let serializedValue: string | null = null;
 
     if (storage && typeof deserialize === "function") {
       try {
-        serializedState = storage.getItem(this.storageKey);
+        serializedValue = storage.getItem(this.storageKey);
 
-        if (serializedState !== null)
-          this.setState(deserialize(serializedState, this.state));
+        if (serializedValue !== null)
+          this.setValue(deserialize(serializedValue, this.value));
       } catch {}
     }
 
     if (!this.synced) {
       this.synced = true;
 
-      if (serializedState === null) this.save();
+      if (serializedValue === null) this.save();
     }
   }
   /**
-   * Signals the store to read the state value from the browser storage once,
+   * Signals the store to read the value from the browser storage once,
    * disregarding subsequest `syncOnce()` calls.
    */
   syncOnce() {

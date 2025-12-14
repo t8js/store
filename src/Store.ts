@@ -1,33 +1,33 @@
-export type StoreStateUpdate<T> = (state: T) => T;
-export type StoreEventCallback<T> = (nextState: T, prevState: T) => void;
+export type StoreUpdate<T> = (value: T) => T;
+export type StoreUpdateCallback<T> = (nextValue: T, prevValue: T) => void;
 
 /**
  * Data container allowing for subscription to its updates.
  */
 export class Store<T> {
-  state: T;
-  callbacks = new Set<StoreEventCallback<T>>();
+  value: T;
+  callbacks = new Set<StoreUpdateCallback<T>>();
   revision = -1;
-  constructor(data: T) {
-    this.state = data;
+  constructor(value: T) {
+    this.value = value;
   }
-  onUpdate(callback: StoreEventCallback<T>) {
+  onUpdate(callback: StoreUpdateCallback<T>) {
     this.callbacks.add(callback);
 
     return () => {
       this.callbacks.delete(callback);
     };
   }
-  getState() {
-    return this.state;
+  getValue() {
+    return this.value;
   }
-  setState(update: T | StoreStateUpdate<T>) {
-    let prevState = this.state;
-    let nextState = update instanceof Function ? update(this.state) : update;
+  setValue(update: T | StoreUpdate<T>) {
+    let prevValue = this.value;
+    let nextValue = update instanceof Function ? update(this.value) : update;
 
-    this.state = nextState;
+    this.value = nextValue;
     this.revision = Math.random();
 
-    for (let callback of this.callbacks) callback(nextState, prevState);
+    for (let callback of this.callbacks) callback(nextValue, prevValue);
   }
 }

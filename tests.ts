@@ -25,24 +25,24 @@ let unsubscribe = [
 assert(isStore(store), true);
 assert(isStore({}), false);
 
-assert(store.getState(), 10);
+assert(store.getValue(), 10);
 assert(store.callbacks.size, 2);
 
-store.setState(2);
-assert(store.getState(), 2);
+store.setValue(2);
+assert(store.getValue(), 2);
 assert(testValue[0], 102);
 assert(testValue[1], -6);
 
-store.setState(-25);
-assert(store.getState(), -25);
+store.setValue(-25);
+assert(store.getValue(), -25);
 assert(testValue[0], 77);
 assert(testValue[1], 150);
 
 unsubscribe[1]();
 assert(store.callbacks.size, 1);
 
-store.setState(12);
-assert(store.getState(), 12);
+store.setValue(12);
+assert(store.getValue(), 12);
 assert(testValue[0], 89);
 assert(testValue[1], 150);
 

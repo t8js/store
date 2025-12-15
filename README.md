@@ -4,11 +4,17 @@ A lightweight data container allowing for subscription to its updates
 
 [![npm](https://img.shields.io/npm/v/@t8/store?labelColor=345&color=46e)](https://www.npmjs.com/package/@t8/store) ![Lightweight](https://img.shields.io/bundlephobia/minzip/@t8/store?label=minzip&labelColor=345&color=46e)
 
+<!-- docsgen-show-start --
+## Exports
+-- docsgen-show-end -->
+
 This package exports two classes: `Store` and its subclass `PersistentStore`. A `Store` object is a thin container for data of arbitrary type, exposing methods to get and set the contained value and allowing to subscribe to its value updates. It can be used as a data storage, or state, shared by multiple independent parts of code that need to be notified when the data gets updated. `PersistentStore` is a version of `Store` enchanced to make the contained value persistent across page reloads via `localStorage` or `sessionStorage`.
 
 Stores can be used as shared state with libraries like React, see [React Store](https://github.com/t8js/react-store) exposing a ready-to-use hook for shared state management.
 
+<!-- docsgen-hide-start -->
 Installation: `npm i @t8/store`
+<!-- docsgen-hide-end -->
 
 ## Initialization
 

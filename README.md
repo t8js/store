@@ -39,13 +39,10 @@ The store value can be read and updated with `getValue()` and `setValue(update)`
 ```js
 let store = new Store({ counter: 0 });
 
-let value = store.getValue();
-console.log(value.counter); // 0
-
 store.setValue({ counter: 100 });
-console.log(value.counter); // 100
-
 store.setValue((value) => ({ ...value, counter: value.counter + 1 }));
+
+let value = store.getValue();
 console.log(value.counter); // 101
 ```
 

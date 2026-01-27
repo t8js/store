@@ -15,7 +15,7 @@ export class Store<T> {
   }
   /**
    * Adds an event handler to the store.
-   * 
+   *
    * Handlers of the `"update"` event are called whenever the store value
    * is updated via `setValue(value)`.
    *

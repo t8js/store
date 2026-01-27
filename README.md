@@ -51,3 +51,8 @@ let unsubscribe = store.on("update", ({ current, previous }) => {
 ```
 
 Each subscription returns an unsubscription function. Once it's invoked, the given `callback` is removed from the store and no longer called when the store is updated.
+
+---
+
+- [T8 Persistent Store](https://github.com/t8js/persistent-store)
+- [T8 React Store](https://github.com/t8js/react-store)

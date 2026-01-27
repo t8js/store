@@ -3,12 +3,12 @@
 A lightweight data container allowing for subscription to its updates
 
 <!-- docsgen-show-start --
-## Exports
+## Store
 -- docsgen-show-end -->
 
-This package exports two classes: `Store` and its subclass `PersistentStore`. A `Store` object is a thin container for data of arbitrary type, exposing methods to get and set the contained value and allowing to subscribe to its value updates. It can be used as a data storage, or state, shared by multiple independent parts of code that need to be notified when the data gets updated. `PersistentStore` is a version of `Store` enchanced to make the contained value persistent across page reloads via `localStorage` or `sessionStorage`.
+An instance of the `Store` class exported from this package is a thin container for data of arbitrary type, exposing methods to get and set the contained value and allowing to subscribe to its value updates. It can be used as a data storage, or state, shared by multiple independent parts of code that need to be notified when the data gets updated.
 
-Stores can be used as shared state with libraries like React, see [React Store](https://github.com/t8js/react-store) exposing a ready-to-use hook for shared state management.
+Stores can be used as state shared across application components with libraries like React. See [T8 React Store](https://github.com/t8js/react-store) exposing a ready-to-use hook for shared state management.
 
 ## Initialization
 
@@ -42,36 +42,12 @@ console.log(value.counter); // 101
 
 ## Subscription to updates
 
-A callback passed to the `onUpdate(callback)` method is called each time the store value is updated via `setValue(value)`.
+Each time the store value is updated via `setValue(value)` the store emits an `"update"` event allowing for subscriptions:
 
 ```js
-let unsubscribe = store.onUpdate((nextValue, prevValue) => {
-  console.log(nextValue, prevValue);
+let unsubscribe = store.on("update", ({ current, previous }) => {
+  console.log(current, previous);
 });
 ```
 
-`onUpdate(callback)` returns an unsubscription function. Once it's invoked, the given `callback` is removed from the store and no longer called when the store is updated.
-
-## Persistence across page reloads
-
-```js
-import { PersistentStore } from "@t8/store";
-
-let counterStore = new PersistentStore(0, "counter");
-```
-
-Whenever updated, `counterStore` above will save its value to the `"counter"` key of `localStorage`. (Pass `{ session: true }` as the third parameter of `new PersistentStore()` to use `sessionStorage` instead of `localStorage`.)
-
-The following call signals the store to read the value from the browser storage, which can be used once or multiple times after creating the store:
-
-```js
-counterStore.sync();
-```
-
-If it's desirable to sync a store with the browser storage just once regardless of the number of sync calls (coming from multiple independent parts of the code, for example), `syncOnce()` calls can be used instead:
-
-```js
-counterStore.syncOnce(); // Syncs once disregarding subsequent syncOnce() calls
-```
-
-The way the store value gets saved to and restored from a browser storage entry (including filtering out certain data or otherwise rearranging the saved data) can be redefined by setting `options.serialize` and `options.deserialize` in `new PersistentStore(value, storageKey, options)`. By default, these options act like `JSON.stringify()` and `JSON.parse()` respectively.
+Each subscription returns an unsubscription function. Once it's invoked, the given `callback` is removed from the store and no longer called when the store is updated.

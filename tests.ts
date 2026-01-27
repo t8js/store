@@ -14,11 +14,11 @@ let store = new Store(10);
 
 let testValue = [100, -3];
 let unsubscribe = [
-  store.onUpdate((state) => {
-    testValue[0] += state;
+  store.on("update", ({ current }) => {
+    testValue[0] += current;
   }),
-  store.onUpdate((state) => {
-    testValue[1] *= state;
+  store.on("update", ({ current }) => {
+    testValue[1] *= current;
   }),
 ];
 
@@ -26,7 +26,7 @@ assert(isStore(store), true);
 assert(isStore({}), false);
 
 assert(store.getValue(), 10);
-assert(store.callbacks.size, 2);
+assert(store.callbacks.update.size, 2);
 
 store.setValue(2);
 assert(store.getValue(), 2);
@@ -39,7 +39,7 @@ assert(testValue[0], 77);
 assert(testValue[1], 150);
 
 unsubscribe[1]();
-assert(store.callbacks.size, 1);
+assert(store.callbacks.update.size, 1);
 
 store.setValue(12);
 assert(store.getValue(), 12);

@@ -1,6 +1,6 @@
 {
   "name": "@t8/store",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A lightweight data container allowing for subscription to its updates",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
